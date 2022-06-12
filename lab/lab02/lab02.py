@@ -119,19 +119,17 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-    def outer(k):
-        def innerCycle(n):
-            nonlocal k
-            while k > 0:
-                n = f1(n)
-                k = k-1
-                
-                if k > 0:
-                    n = f2(n)
-                    k = k-1
-                if k > 0:
-                    n = f3(n)
-                    k = k-1
-            return n
-        return innerCycle
+    def outer(n):
+        def inner(x):
+            nonlocal n
+            n, remainder = n//3, n%3
+            while n > 0:
+                x = f3(f2(f1(x)))
+                n -= 1
+            if remainder == 2:
+                return f2(f1(x))
+            if remainder == 1:
+                return f1(x)
+            return x
+        return inner
     return outer
